@@ -1,4 +1,4 @@
-import { Task } from "@/models/task";
+import { Task } from "../models/task";
 import axios, { AxiosInstance } from "axios";
 
 export class taskService{
