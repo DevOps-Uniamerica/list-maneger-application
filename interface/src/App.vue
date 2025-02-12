@@ -1,85 +1,83 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="container">
+    <h1><span class="logo">🚀</span> <span class="text-green">t</span><span class="text-purple">odo</span></h1>
+    
+    <div class="input-container">
+      <input v-model="newTask" type="text" placeholder="Adicione uma nova tarefa" />
+      <button @click="addTask">Criar ➕</button>
     </div>
-  </header>
 
-  <RouterView />
+    <ul>
+      <li v-for="task in tasks" :key="task.id">{{ task.description }}</li>
+    </ul>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<script>
+import taskService from "./services/taskService.ts";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+export default {
+  data() {
+    return {
+      newTask: "",
+      tasks: []
+    };
+  },
+  methods: {
+    async addTask() {
+      const newTask = await taskService.addTask(this.newTask);
+      if (newTask) {
+        this.tasks.push(newTask);
+        this.newTask = "";
+      }
+    },
+    async fetchTasks() {
+      this.tasks = await taskService.getTasks();
+    }
+  },
+  mounted() {
+    this.fetchTasks();
+  }
+};
+</script>
 
-nav {
-  width: 100%;
-  font-size: 12px;
+<style>
+.container {
   text-align: center;
-  margin-top: 2rem;
+  font-family: Arial, sans-serif;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.input-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+button {
+  background-color: purple;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-nav a:first-of-type {
-  border: 0;
+ul {
+  list-style: none;
+  padding: 0;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+li {
+  background: #f3f3f3;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
 }
 </style>
