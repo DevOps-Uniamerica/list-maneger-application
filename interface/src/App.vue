@@ -8,13 +8,20 @@
     </div>
 
     <ul>
-      <li v-for="task in tasks" :key="task.id">{{ task.description }}</li>
+      <li 
+        v-for="task in tasks" 
+        :key="task.id" 
+        @click="toggleTask(task)" 
+        :class="{ completed: task.concluido }">
+        {{ task.tarefa }}
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-import taskService from "./services/taskService.ts";
+import taskService from "@/services/taskService";
+import { Task } from "./models/task";
 
 export default {
   data() {
@@ -33,6 +40,9 @@ export default {
     },
     async fetchTasks() {
       this.tasks = await taskService.getTasks();
+    },
+    async toggleTask(task) {
+      await taskService.toggleTaskStatus(task);
     }
   },
   mounted() {
@@ -79,5 +89,11 @@ li {
   margin: 5px 0;
   padding: 10px;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+li.completed {
+  text-decoration: line-through;
+  color: gray;
 }
 </style>
