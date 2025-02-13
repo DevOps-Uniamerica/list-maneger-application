@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h1><span class="logo">🚀</span> <span class="text-green">t</span><span class="text-purple">odo</span></h1>
+    <div>
+      <img src="./assets/imagem_2025-02-13_192453217-removebg-preview.png" alt="">
     
     <div class="input-container">
       <input v-model="newTask" type="text" placeholder="Adicione uma nova tarefa" />
@@ -24,6 +25,7 @@
         <button class="delete-button" @click.stop="removeTask(task.id)">🗑</button>
       </li>
     </ul>
+    </div>
   </div>
 </template>
 
@@ -66,8 +68,19 @@ const removeTask = (taskId: number) => {
 
 <style scoped>
 .container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
   text-align: center;
   font-family: Arial, sans-serif;
+}
+
+.text-green {
+  color: green;
+}
+
+.text-purple {
+  color: purple;
 }
 
 .input-container {
@@ -84,6 +97,8 @@ input {
 }
 
 button {
+  background-color: purple;
+  color: white;
   padding: 10px 15px;
   border: none;
   border-radius: 8px;
