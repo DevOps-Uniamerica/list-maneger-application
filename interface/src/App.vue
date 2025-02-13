@@ -1,13 +1,14 @@
 <template>
   <div class="container">
     <div>
+      <div class="img-input">
       <img src="./assets/imagem_2025-02-13_192453217-removebg-preview.png" alt="">
     
     <div class="input-container">
       <input v-model="newTask" type="text" placeholder="Adicione uma nova tarefa" />
       <button @click="addTask">Criar ➕</button>
     </div>
-
+  </div>
     <ul>
       <li 
         v-for="task in tasks" 
@@ -70,17 +71,10 @@ const removeTask = (taskId: number) => {
 .container {
   display: flex !important;
   justify-content: center !important;
-  align-items: center !important;
+  align-items: start !important;
   text-align: center;
+  padding-top: 50px;
   font-family: Arial, sans-serif;
-}
-
-.text-green {
-  color: green;
-}
-
-.text-purple {
-  color: purple;
 }
 
 .input-container {
@@ -88,14 +82,23 @@ const removeTask = (taskId: number) => {
   justify-content: center;
   gap: 10px;
   margin: 20px 0;
+
 }
 
 input {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  width: 600px;
+  height: 30px;
 }
-
+.img-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  background-color: #F0EDF2;
+}
 button {
   background-color: purple;
   color: white;
@@ -110,6 +113,28 @@ button {
   height: 20px;
   margin-right: 10px;
   cursor: pointer;
+  border-radius: 50%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.checkbox:checked {
+  background-color: #000;
+  border-color: #000;
+}
+
+.checkbox:checked::after {
+  content: "✔"; /* Símbolo de check */
+  color: #479C6E; /* Verde */
+  font-size: 14px;
+  font-weight: bold;
+  position: absolute;
 }
 
 button.delete-button {
@@ -161,5 +186,9 @@ li {
 .completed {
   color: #a0a0a0;
   opacity: 0.6;
+}
+
+img {
+  width: 200px;
 }
 </style>
