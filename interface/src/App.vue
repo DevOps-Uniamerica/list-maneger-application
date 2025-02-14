@@ -9,6 +9,7 @@
       <button @click="addTask">Criar ➕</button>
     </div>
   </div>
+  <div class="align-check">
     <ul>
       <li 
         v-for="task in tasks" 
@@ -26,6 +27,7 @@
         <button class="delete-button" @click.stop="removeTask(task.id)">🗑</button>
       </li>
     </ul>
+  </div>
     </div>
   </div>
 </template>
@@ -69,12 +71,12 @@ const removeTask = (taskId: number) => {
 
 <style scoped>
 .container {
-  display: flex !important;
+  
   justify-content: center !important;
   align-items: start !important;
   text-align: center;
-  padding-top: 50px;
   font-family: Arial, sans-serif;
+  width: 100%;
 }
 
 .input-container {
@@ -98,6 +100,7 @@ input {
   align-items: center;
   gap: 50px;
   background-color: #F0EDF2;
+  padding-top: 50px;
 }
 button {
   background-color: purple;
@@ -117,7 +120,7 @@ button {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  border: 2px solid #000;
+  border: 2px solid #9359F3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,21 +128,23 @@ button {
 }
 
 .checkbox:checked {
-  background-color: #000;
-  border-color: #000;
+  background-color: #479C6E; /* Fundo verde */
+  border-color: #479C6E;
+  transition: 0.5s;
 }
 
 .checkbox:checked::after {
   content: "✔"; /* Símbolo de check */
-  color: #479C6E; /* Verde */
+  color: #ffffff; /* Branco */
   font-size: 14px;
   font-weight: bold;
   position: absolute;
 }
 
+
 button.delete-button {
-  background-color: #1e1e1e;
-  color: white;
+  background-color: #E0DCE4;
+  color: rgb(0, 0, 0);
   margin-left: 10px;
   border-radius: 10%;
   width: 30px;
@@ -148,12 +153,9 @@ button.delete-button {
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: x-large;
 }
 
-button.delete-button:hover {
-  background-color: rgb(66, 64, 64);
-  color: white;
-}
 
 ul {
   list-style: none;
@@ -161,16 +163,26 @@ ul {
 }
 
 li {
-  background: #1e1e1e;
+  background-color: #E0DCE4;
+  color: #6B6572 !important;
   margin: 5px 0;
   padding: 10px;
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: white;
+  width: 600px;
 }
 
+li.concluido {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #D1CBD7;
+}
+
+li.concluido button.delete-button {
+  background-color: #fdfdfd;
+}
 .task-label {
   display: flex;
   align-items: center;
@@ -180,12 +192,17 @@ li {
 
 .task-text {
   font-size: 16px;
-  color: white;
 }
 
 .completed {
   color: #a0a0a0;
   opacity: 0.6;
+}
+
+.align-check {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px; 
 }
 
 img {
