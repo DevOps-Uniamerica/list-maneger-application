@@ -2,42 +2,52 @@
   <div class="container">
     <div>
       <div class="img-input">
-      <img src="./assets/imagem_2025-02-13_192453217-removebg-preview.png" alt="">
-    
-    <div class="input-container">
-      <input v-model="newTask" type="text" placeholder="Adicione uma nova tarefa" />
-      <button @click="addTask">Criar ➕</button>
-    </div>
-  </div>
-  <div class="align-check">
-    <ul>
-      <li 
-        v-for="task in tasks" 
-        :key="task.id" 
-        :class="{ concluido: task.concluido }">
-        <label class="task-label">
-          <input 
-            type="checkbox" 
-            class="checkbox" 
-            :checked="task.concluido" 
-            @change="toggleTask(task)" 
-          />
-          <span class="task-text" :class="{ completed: task.concluido }">{{ task.tarefa }}</span>
-        </label>
-        <button class="delete-button" @click.stop="removeTask(task.id)">🗑</button>
-      </li>
-    </ul>
-  </div>
+        <img src="./assets/imagem_2025-02-13_192453217-removebg-preview.png" alt="">
+      
+        <div class="input-container">
+          <input v-model="newTask" type="text" placeholder="Adicione uma nova tarefa" />
+          <button @click="addTask">CRIAR <span class="mais">+</span></button>
+        </div>
+      </div>
+
+      <!-- Contadores -->
+      <div class="task-counters">
+        <span class="tasks-created">Tarefas criadas <strong>{{ tasks.length }}</strong></span>
+        <span class="tasks-completed">Concluídas <strong>{{ completedTasks }}</strong></span>
+      </div>
+
+      <div class="align-check">
+        <ul>
+          <li 
+            v-for="task in tasks" 
+            :key="task.id" 
+            :class="{ concluido: task.concluido }">
+            <label class="task-label">
+              <input 
+                type="checkbox" 
+                class="checkbox" 
+                :checked="task.concluido" 
+                @change="toggleTask(task)" 
+              />
+              <span class="task-text" :class="{ completed: task.concluido }">{{ task.tarefa }}</span>
+            </label>
+            <button class="delete-button" @click.stop="removeTask(task.id)">🗑</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import type { Task } from "../src/models/task";
 
 const newTask = ref("");
 const tasks = ref<Task[]>([]);
+
+// Computed para contar tarefas concluídas
+const completedTasks = computed(() => tasks.value.filter(task => task.concluido).length);
 
 onMounted(() => {
   const savedTasks = localStorage.getItem("tasks");
@@ -71,7 +81,6 @@ const removeTask = (taskId: number) => {
 
 <style scoped>
 .container {
-  
   justify-content: center !important;
   align-items: start !important;
   text-align: center;
@@ -84,7 +93,6 @@ const removeTask = (taskId: number) => {
   justify-content: center;
   gap: 10px;
   margin: 20px 0;
-
 }
 
 input {
@@ -102,13 +110,15 @@ input {
   background-color: #F0EDF2;
   padding-top: 50px;
 }
+
 button {
-  background-color: purple;
+  background-color: #6F3CC3;
   color: white;
   padding: 10px 15px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  width: 100px;
 }
 
 .checkbox {
@@ -128,19 +138,18 @@ button {
 }
 
 .checkbox:checked {
-  background-color: #479C6E; /* Fundo verde */
+  background-color: #479C6E;
   border-color: #479C6E;
   transition: 0.5s;
 }
 
 .checkbox:checked::after {
-  content: "✔"; /* Símbolo de check */
-  color: #ffffff; /* Branco */
+  content: "✔";
+  color: #ffffff;
   font-size: 14px;
   font-weight: bold;
   position: absolute;
 }
-
 
 button.delete-button {
   background-color: #E0DCE4;
@@ -155,7 +164,6 @@ button.delete-button {
   transition: background-color 0.3s ease, color 0.3s ease;
   font-size: x-large;
 }
-
 
 ul {
   list-style: none;
@@ -183,6 +191,7 @@ li.concluido {
 li.concluido button.delete-button {
   background-color: #fdfdfd;
 }
+
 .task-label {
   display: flex;
   align-items: center;
@@ -202,10 +211,29 @@ li.concluido button.delete-button {
 .align-check {
   display: flex;
   justify-content: center;
-  margin-top: 50px; 
+  margin-top: 50px;
 }
 
-img {
-  width: 200px;
+/* Estilização dos contadores */
+.task-counters {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  margin: 20px auto;
+  font-size: 16px;
+}
+
+.tasks-created {
+  color: #9359F3;
+  font-weight: bold;
+}
+
+.tasks-completed {
+  color: #479C6E;
+  font-weight: bold;
+}
+
+.mais {
+  font-size: 18px;
 }
 </style>
